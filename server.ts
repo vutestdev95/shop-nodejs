@@ -1,9 +1,12 @@
 import { app } from "./src/app";
+import { configDatabaseHelper } from "./src/configs/config.database";
 
-const PORT = 3055;
+const {
+  app: { host }
+} = configDatabaseHelper.getConfigByEnv();
 
-const server = app.listen(PORT, () => {
-  console.log(`E-commerce is start on ${PORT}`);
+const server = app.listen(host, () => {
+  console.log(`E-commerce is start on ${host}`);
 });
 
 process.on("SIGINT", () => {
