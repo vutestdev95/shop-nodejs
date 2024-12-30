@@ -4,10 +4,12 @@ import helmet from "helmet";
 import compression from "compression";
 import { instanceDB } from "~/dbs/init.mongo";
 import { checkConnectHelper } from "~/helpers/check.connect";
+import "dotenv/config";
 
 export const app = express();
 
 //init middlewares
+
 app.use(morgan("common"));
 app.use(json());
 app.use(helmet());

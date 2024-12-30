@@ -1,9 +1,13 @@
 import mongoose from "mongoose";
 import { IDatabase } from "~/interfaces/database.type";
 import { checkConnectHelper } from "~/helpers/check.connect";
+import { configDatabaseHelper } from "~/configs/config.database";
 
-const url =
-  "mongodb+srv://vufedev:0905816128Abcd@shopdev-master.flagu.mongodb.net/?retryWrites=true&w=majority&appName=shopdev-master";
+const {
+  database: { userPassword, userName, dataBaseName }
+} = configDatabaseHelper.getConfigByEnv();
+
+const url = `mongodb+srv://${userName}:${userPassword}@shopdev-master.flagu.mongodb.net/?retryWrites=true&w=majority&appName=${dataBaseName}`;
 
 export class DataBase implements IDatabase {
   private static instance: DataBase;
@@ -26,8 +30,9 @@ export class DataBase implements IDatabase {
         maxPoolSize: 50
       })
       .then(() => {
-        console.log("Connect to database success !!!");
-        checkConnectHelper.countConnection();
+        console.log(
+          `Connect to database success !!! ${checkConnectHelper.countConnection()}`
+        );
       })
       .catch((e) => console.error(e));
   }
