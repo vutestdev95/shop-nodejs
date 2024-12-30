@@ -2,6 +2,8 @@ import express, { json } from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 import compression from "compression";
+import { instanceDB } from "~/dbs/init.mongo";
+import { checkConnectHelper } from "~/helpers/check.connect";
 
 export const app = express();
 
@@ -18,6 +20,16 @@ app.get("/", (req, res, next) => {
     message: String("Hello World").repeat(1000000)
   });
 });
+
 //init DB
+instanceDB
+  .connectDataBase()
+  .then(() => {
+    console.log("Init Instance DB Success");
+  })
+  .catch((e) => {
+    console.error(e);
+  });
+checkConnectHelper.checkOverLoad();
 
 //handle errors
